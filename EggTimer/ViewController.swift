@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -38,6 +39,7 @@ class ViewController: UIViewController {
     var selectedEggType: EggBoilTime? = nil
     var timer = Timer()
     var remainingTime: Int = 0
+    var player: AVAudioPlayer!
     
     @IBOutlet weak var header: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
@@ -73,8 +75,14 @@ class ViewController: UIViewController {
         } else {
             header.text = "\(selectedEggType!.getDisplayName()) boiled eggs are done!"
             progressBar.setProgress(1.0, animated: true)
-            
+            playAlarm()
             timer.invalidate()
         }
+    }
+    
+    func playAlarm() {
+        let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
     }
 }
